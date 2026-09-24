@@ -10,7 +10,7 @@ print(f"you are approx {int(age) * 365} days old")
 dob = dob.split("-")
 assert len(dob) == 3, "there are too many dashes in the given date of birth"
 dob = datetime.date(int(dob[0]), int(dob[1]), int(dob[2]))
-now = datetime.datetime.now().date()
+now = datetime.datetime.now().date()  # noqa: DTZ005
 dif = now-dob
 dif = dif.days
 

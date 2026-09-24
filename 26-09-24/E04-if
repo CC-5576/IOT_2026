@@ -1,0 +1,21 @@
+raw_input:list[int] = []
+for i in range(3):
+    new_in = int(input("please provide me with a score: "))
+    raw_input.append(new_in)
+
+avg = sum(raw_input)/len(raw_input)
+print(f"average score is {avg}")
+if avg >= 70: print("You've gotten an A")
+elif avg >= 60: print("You've gotten an B")
+elif avg >= 50: print("You've gotten an C")
+elif avg >= 40: print("You've gotten an D")
+else: print("You've failed")
+
+max_in = max(raw_input)
+HIGH_SCORE = 80
+
+if max_in > HIGH_SCORE:
+    print("HIGH_SCORE has been exceeded")
+    print(f"new HIGH_SCORE = {max_in}")
+else:
+    print(f"better luck next time\n HIGH_SCORE is {HIGH_SCORE}")

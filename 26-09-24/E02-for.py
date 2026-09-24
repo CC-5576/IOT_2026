@@ -1,5 +1,6 @@
 from time import sleep
 
+
 def all():
     for i in range(1,31):
         print(i)
