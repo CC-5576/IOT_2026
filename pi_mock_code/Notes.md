@@ -1,1 +1,0 @@
-you could historical data and turn it into a graph using numpy to be displayed over a python gui on a "host" device. i.e. a minimum setup would require 2 pi's one to act as a host node, and collect and store data from the last x time period, and a second to act as the sensor relays that transmit the data over the network.

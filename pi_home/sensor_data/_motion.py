@@ -20,8 +20,7 @@ class motion:
 
         """
         self.pin: int = pin
-        self.last_movement: datetime = datetime(1970,1,1)
-        self.movement_history: list[datetime] = []
+        self._movement_history: list[datetime] = [datetime(1970,1,1)]
 
     def get_live_data(self):
         # setting up the motion sensor
@@ -31,8 +30,7 @@ class motion:
 
         if GPIO.input(m_pin) == 1:
             now: datetime = datetime.now()
-            self.movement_history.append(now)
-            self.last_movement = now
+            self._movement_history.append(now)
             return (True, now)
         else:
             return False
@@ -45,17 +43,17 @@ class motion:
 
         if length.lower() == "l":
             # if last movment is the defalt (1970,1,1), then check movment
-            if self.last_movment.year == 1970:
+            if self._movement_history[-1].year == 1970:
                 self.get_live_data()
 
-            return self.last_movement
+            return self._movement_history[-1]
 
         elif length.lower() == "a":
             # if there is no movment history, then get live data
-            if self.movement_history == []:
+            if self._movement_history == []:
                 self.get_live_data()
 
-            return self.movement_history
+            return self._movement_history
         else:
             raise ValueError(
                 f"""
