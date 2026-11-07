@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4x4 Grid</title>
+
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 120px);
+            grid-template-rows: repeat(4, 120px);
+            gap: 10px;
+        }
+
+        .box {
+            border: 2px solid transparent;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* White borders on columns 2 and 4 */
+        .box:nth-child(4n + 2),
+        .box:nth-child(4n + 4) {
+            border-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid">
+        <div class="box">Room ID:     </div>
+        <div class="box">Termperature:</div>
+        <div class="box">Humidity:    </div>
+        <div class="box">Row 1<br>Column 4</div>
+
+        <div class="box">Row 2<br>Column 1</div>
+        <div class="box">Row 2<br>Column 2</div>
+        <div class="box">Row 2<br>Column 3</div>
+        <div class="box">Row 2<br>Column 4</div>
+
+        <div class="box">Row 3<br>Column 1</div>
+        <div class="box">Row 3<br>Column 2</div>
+        <div class="box">Row 3<br>Column 3</div>
+        <div class="box">Row 3<br>Column 4</div>
+
+        <div class="box">Row 4<br>Column 1</div>
+        <div class="box">Row 4<br>Column 2</div>
+        <div class="box">Row 4<br>Column 3</div>
+        <div class="box">Row 4<br>Column 4</div>
+    </div>
+</body>
+</html>
+
