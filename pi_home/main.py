@@ -1,6 +1,6 @@
-from pi_home.lib import S7
-from pi_home.sensor_data import *
-from pi_home.output import *
+from lib import S7
+from sensor_data import *
+from output import *
 
 import asyncio
 import json
@@ -74,6 +74,7 @@ class sensors:
         })
 
 
+
 default_port = 16576
 Live_Sensors = sensors()
 
@@ -88,11 +89,24 @@ async def Node(address, port):
     async with server:
         await server.serve_forever()
 
-async def clockupdate():
+async def clockupdate(address=0x70):
+    clock_display = S7.SevenSegment(address=address)
+    clock_display.begin()
+    while True:
+        await asyncio.sleep(60)
+        current_time =  str(datetime.now().hour)
+        current_time += str(datetime.now().minute)
+        clock_display.print_number_str(current_time)
+        clock_display.write_display()
+
 
 
 async def main():
-    asyncio.run(Node(None, default_port))
-    
+    await asyncio.gather(
+            Node(None, default_port),
+            clockupdate()
+            )
+
+asyncio.run(main())
 
     
