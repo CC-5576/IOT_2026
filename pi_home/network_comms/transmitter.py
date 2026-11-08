@@ -1,7 +1,7 @@
 import asyncio
 
 
-class EchoClientProtocol(asyncio.Protocol):
+class TransmissionServer(asyncio.Protocol):
     def __init__(self, message, on_con_lost):
         self.message = message
         self.on_con_lost = on_con_lost
@@ -18,17 +18,16 @@ class EchoClientProtocol(asyncio.Protocol):
         self.on_con_lost.set_result(True)
 
 
-async def main():
+async def main(address, port, message):
     # Get a reference to the event loop as we plan to use
     # low-level APIs.
     loop = asyncio.get_running_loop()
 
     on_con_lost = loop.create_future()
-    message = 'Hello World!'
 
     transport, protocol = await loop.create_connection(
-        lambda: EchoClientProtocol(message, on_con_lost),
-        'TJSKI-4B', 8888)
+        lambda: TransmissionServer(message, on_con_lost),
+        address, port)
 
     # Wait until the protocol signals that the connection
     # is lost and close the transport.
@@ -37,5 +36,5 @@ async def main():
     finally:
         transport.close()
 
-
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())

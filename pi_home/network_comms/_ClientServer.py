@@ -1,7 +1,7 @@
 import asyncio
 
 
-class EchoServerProtocol(asyncio.Protocol):
+class NodeServer(asyncio.Protocol):
     def connection_made(self, transport):
         peername = transport.get_extra_info('peername')
         print('Connection from {}'.format(peername))
@@ -11,24 +11,26 @@ class EchoServerProtocol(asyncio.Protocol):
         message = data.decode()
         print('Data received: {!r}'.format(message))
 
-        print('Send: {!r}'.format(message))
-        self.transport.write(data)
+        tra_dat = str(input("retransmit: ")).encode("ascii")
+
+        print('Send: {!r}'.format(tra_dat))
+        self.transport.write(tra_dat)
 
         print('Close the client socket')
         self.transport.close()
 
 
-async def main():
+async def Node(address, port):
     # Get a reference to the event loop as we plan to use
     # low-level APIs.
     loop = asyncio.get_running_loop()
 
     server = await loop.create_server(
-        EchoServerProtocol,
-        '192.168.33.114', 8888)
+        NodeServer,
+        address, port)
 
     async with server:
         await server.serve_forever()
 
-
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(Node())
