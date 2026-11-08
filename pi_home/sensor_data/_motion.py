@@ -2,6 +2,7 @@
 # locally on the node rather than the server to negate the need for the server to save the
 # node data locally, using persitant data store, i.e. a log file with the time saved
 from datetime import datetime
+from time import time
 
 from RPi import GPIO
 
@@ -27,13 +28,21 @@ class motion:
         m_pin: int = self.pin
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(m_pin, GPIO.IN)
+        
+        et = time()+30
+        movement = False
+        while time() < et:
+            if GPIO.input(m_pin) == 1:
+                now: datetime = datetime.now()
+                self._movement_history.append(now)
+                movement = True
+                break
 
-        if GPIO.input(m_pin) == 1:
-            now: datetime = datetime.now()
-            self._movement_history.append(now)
-            return (True, now)
+        if movement:
+            return True, self._movement_history[-1]
         else:
             return False
+                
 
     def get_history(self, length: str = "l"):
         """

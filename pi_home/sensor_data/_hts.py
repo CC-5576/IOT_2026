@@ -1,5 +1,4 @@
-import adafruit_dht as dht
-import board
+from ..lib import dht, board
 
 
 class HumidTemp:

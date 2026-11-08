@@ -95,7 +95,7 @@ def pi_version():
                       flags=re.MULTILINE | re.IGNORECASE)
     if not match:
         # Couldn't find the hardware, assume it isn't a pi.
-        return None
+        return 4
     if match.group(1) == 'BCM2708':
         # Pi 1
         return 1

@@ -32,5 +32,3 @@ async def Node(address, port):
     async with server:
         await server.serve_forever()
 
-if __name__ == "__main__":
-    asyncio.run(Node())
