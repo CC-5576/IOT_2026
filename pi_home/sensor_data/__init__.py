@@ -2,7 +2,6 @@
 # This module can be called to get and return data in a dict format for processing
 import RPi.GPIO as gp
 
-from ._export import bulk_data as read
 from ._button import window
 from ._hts import HumidTemp
 from ._motion import motion

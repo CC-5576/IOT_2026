@@ -1,18 +1,39 @@
 from pi_home.lib import S7
 from pi_home.sensor_data import *
-from pi_home.network_comms import Node
+from pi_home.output import *
 
 import asyncio
 import json
 from datetime import datetime
 
-default_port = 16576
+
+class NodeServer(asyncio.Protocol):
+    def connection_made(self, transport):
+        peername = transport.get_extra_info('peername')
+        print('Connection from {}'.format(peername))
+        self.transport = transport
+
+    def data_received(self, data):
+        message = data.decode()
+        print(f'Data received: {message}')
+        
+        if message == "0x01":
+            Live_Sensors.update()
+            transmission_data = str(Live_Sensors.dataFormatter()).encode("ascii")
+
+        else:
+            transmission_data = data
+
+        self.transport.write(transmission_data)
+
+        print('Close the client socket')
+        self.transport.close()
 
 
 class sensors:
     def __init__(self):
         '''this will setup and store the instants sensor suit'''
-        self._Window = Window()
+        self._Window = window()
         self._Temperature = HumidTemp()
         self._Motion = motion()
         self._Sonics = sonics()
@@ -53,8 +74,25 @@ class sensors:
         })
 
 
+default_port = 16576
+Live_Sensors = sensors()
+
+
+async def Node(address, port):
+    loop = asyncio.get_running_loop()
+
+    server = await loop.create_server(
+        NodeServer,
+        address, port)
+
+    async with server:
+        await server.serve_forever()
+
+async def clockupdate():
+
+
 async def main():
-    asyncio.run(node(None, default_port))
+    asyncio.run(Node(None, default_port))
     
 
     

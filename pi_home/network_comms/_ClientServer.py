@@ -1,6 +1,5 @@
 import asyncio
 
-
 class NodeServer(asyncio.Protocol):
     def connection_made(self, transport):
         peername = transport.get_extra_info('peername')
@@ -18,17 +17,3 @@ class NodeServer(asyncio.Protocol):
 
         print('Close the client socket')
         self.transport.close()
-
-
-async def Node(address, port):
-    # Get a reference to the event loop as we plan to use
-    # low-level APIs.
-    loop = asyncio.get_running_loop()
-
-    server = await loop.create_server(
-        NodeServer,
-        address, port)
-
-    async with server:
-        await server.serve_forever()
-
