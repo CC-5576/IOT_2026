@@ -33,11 +33,11 @@ class NodeServer(asyncio.Protocol):
 class sensors:
     def __init__(self):
         '''this will setup and store the instants sensor suit'''
-        self._Window = window()
+        self._Window = Window()
         self._Temperature = HumidTemp()
-        self._Motion = motion()
-        self._Sonics = sonics()
-        self._Sound = sound()
+        self._Motion = Motion()
+        self._Sonics = Sonics()
+        self._Sound = Sound()
         self.window: None|str = None
         self.temperature: None|float = None
         self.humidity: None|int = None
@@ -101,12 +101,8 @@ async def clockupdate(address=0x70):
 
 
 
-async def main():
+async def start_device():
     await asyncio.gather(
             Node(None, default_port),
             clockupdate()
             )
-
-asyncio.run(main())
-
-    
