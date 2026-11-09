@@ -42,7 +42,7 @@ class HT16K33(object):
         (defaults to 0x70) and I2C bus (defaults to platform specific bus).
         """
         if i2c is None:
-            import pi_home.lib.Adafruit_GPIO.I2C as I2C
+            import lib.Adafruit_GPIO.I2C as I2C
             i2c = I2C
         self._device = i2c.get_i2c_device(address, **kwargs)
         self.buffer = bytearray([0]*16)

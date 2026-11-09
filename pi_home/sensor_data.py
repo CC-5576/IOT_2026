@@ -51,7 +51,8 @@ class Motion:
 
         """
         self.pin: int = pin
-        self._movement_history: list[datetime] = [datetime(1970,1,1)]
+        self.default = "1970-01-01T00:00:00"
+        self._movement_history: list[str] = [self.default]
 
     def get_live_data(self):
         # setting up the motion sensor
@@ -63,7 +64,7 @@ class Motion:
         movement = False
         while time() < et:
             if GPIO.input(m_pin) == 1:
-                now: datetime = datetime.now()
+                now: datetime = datetime.now().isoformat()
                 self._movement_history.append(now)
                 movement = True
                 break
@@ -82,7 +83,7 @@ class Motion:
 
         if length.lower() == "l":
             # if last movment is the defalt (1970,1,1), then check movment
-            if self._movement_history[-1].year == 1970:
+            if self._movement_history[-1] == self.default:
                 self.get_live_data()
 
             return self._movement_history[-1]

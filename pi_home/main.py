@@ -5,6 +5,7 @@ from output import *
 import asyncio
 import json
 from datetime import datetime
+import RPi.GPIO as GPIO
 
 
 class NodeServer(asyncio.Protocol):
@@ -33,6 +34,7 @@ class NodeServer(asyncio.Protocol):
 class sensors:
     def __init__(self):
         '''this will setup and store the instants sensor suit'''
+        GPIO.setmode(GPIO.BCM)
         self._Window = Window()
         self._Temperature = HumidTemp()
         self._Motion = Motion()
@@ -41,7 +43,7 @@ class sensors:
         self.window: None|str = None
         self.temperature: None|float = None
         self.humidity: None|int = None
-        self.motion: None|datetime = None
+        self.motion: None|str = None
         self.door_distance: None|float = None
         self.sound_detection: None|str = None
 
@@ -60,7 +62,7 @@ class sensors:
         self.door_distance = self._Sonics.distance()
 
         # sound detecion
-        self.soud_detection = self._Sound.detect()
+        self.sound_detection = self._Sound.detect()
 
 
     def dataFormatter(self):
@@ -75,9 +77,9 @@ class sensors:
 
 
 
+
 default_port = 16576
 Live_Sensors = sensors()
-
 
 async def Node(address, port):
     loop = asyncio.get_running_loop()
