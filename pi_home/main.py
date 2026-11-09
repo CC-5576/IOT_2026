@@ -52,7 +52,8 @@ class sensors:
         self.window = self._Window.status()
 
         # check the temperature and humidity
-        self.temperture, self.humidity = self._Temperature.update()
+        self.temperature, self.humidity = self._Temperature.update()
+        print(self._Temperature.read())
 
         # check for movment and return last movement
         self._Motion.get_live_data()
@@ -94,12 +95,25 @@ async def Node(address, port):
 async def clockupdate(address=0x70):
     clock_display = S7.SevenSegment(address=address)
     clock_display.begin()
+    init_sleep = 60-datetime.now().second
+    
     while True:
-        await asyncio.sleep(60)
-        current_time =  str(datetime.now().hour)
-        current_time += str(datetime.now().minute)
+        now = datetime.now()
+        if now.hour < 10:
+            current_time = "0" + str(now.hour)
+        else:
+            current_time = str(now.hour)
+
+        if now.minute < 10:
+            current_time += "0" + str(now.minute)
+        else:
+            current_time += str(now.minute)
+        
+        clock_display.clear()
         clock_display.print_number_str(current_time)
         clock_display.write_display()
+        await asyncio.sleep(init_sleep)
+        init_sleep=60
 
 
 

@@ -20,10 +20,10 @@
 # THE SOFTWARE.
 import time
 
-import Adafruit_GPIO as GPIO
-import Adafruit_GPIO.I2C as I2C
-import Adafruit_GPIO.MCP230xx as MCP
-import Adafruit_GPIO.PWM as PWM
+import lib.Adafruit_GPIO as GPIO
+import lib.Adafruit_GPIO.I2C as I2C
+import lib.Adafruit_GPIO.MCP230xx as MCP
+import lib.Adafruit_GPIO.PWM as PWM
 
 
 # Commands
